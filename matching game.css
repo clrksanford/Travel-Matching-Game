@@ -1,0 +1,52 @@
+h1, h2 {
+    text-align: center;   
+}
+
+#lyonName {
+    background-color: gray;
+    width: 100%;
+    padding-bottom: 100%;
+    text-align: center;
+}
+
+#lyonName:hover {
+    background-color: aliceblue;   
+}
+
+p {
+  font-size: 45px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#bernName {
+    background-color: darkorange;
+    width: 100%;
+    padding-bottom: 100%;
+}
+
+#bernName:hover {
+    background-color: aliceblue;   
+}
+
+#bernPic {
+    background-color: darkgoldenrod;
+    width: 100%;
+    padding-bottom: 100%;
+}
+
+#bernPic:hover {
+    background-color: aliceblue;   
+}
+
+#lyonPic {
+    background-color: darkblue;
+    width: 100%;
+    padding-bottom: 100%;
+}
+
+#lyonPic:hover {
+    background-color: aliceblue;   
+}
