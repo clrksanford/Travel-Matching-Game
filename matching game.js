@@ -1,38 +1,81 @@
+/*Define variables for the properties that will change when the user clicks the divs, which are also the properties we will check later to see if there's a match*/
+
+var lyonPicBackground, lyonNameHTML, bernPicBackground, bernNameHTML;
+
+var lyonPicLocation = 'url("file:///Users/clarksanford/Desktop/My%20Websites/Travel%20Matching%20Game/Lyon.jpg")'
+
+var bernPicLocation = 'url("file:///Users/clarksanford/Desktop/My%20Websites/Travel%20Matching%20Game/Bern.jpg")'
+
+/*Define what happens when the user clicks on the different divs*/
+
+//When user clicks the box hiding Lyon Name, the name should appear
+    
 $(document).ready(function() {
    $('#lyonName').click(function() {
-      $(this).html("<p id='lyonNameInner'>Lyon<p>");
+      $(this).html("<p id='lyonInner'>Lyon</p>");
        $(this).css("background-color","white");
+       lyonNameHTML = document.getElementById('lyonName').innerHTML;
    });
 });
 
+//When user clicks the box hiding Bern Name, the name should appear
+    
 $(document).ready(function() {
    $('#bernName').click(function() {
-      $(this).html("<p>Bern<p>");
+      $(this).html("<p id='bernInner'>Bern</p>");
        $(this).css("background-color","white");
+       bernNameHTML = document.getElementById('bernName').innerHTML;
    });
 });
 
+//When user clicks the box hiding Lyon Pic, the picture should appear
+    
 $(document).ready(function() {
    $('#lyonPic').click(function() {
       $(this).css("background-image","url(Lyon.jpg)");
-       $(this).css("background-size","100%");
+       $(this).css("background-size","cover");
+       $(this).css("background-position","center");
+       lyonPicBackground = $('#lyonPic').css("background-image");
    });
 });
 
+//When user clicks the box hiding Bern Pic, the picture should appear
 $(document).ready(function() {
    $('#bernPic').click(function() {
       $(this).css("background-image","url(Bern.jpg)");
-       $(this).css("background-size","100%");
+       $(this).css("background-size","cover");
+       $(this).css("background-position","center");
+       bernPicBackground = $('#bernPic').css("background-image");
    });
 });
 
-//case 1: if all are uncovered, reveal some "You won!" message
+/*When user clicks 'check results' button, results should be compared:
 
-if (document.getElementById("lyonNameInner").innerHTML == "Lyon") {
-    alert("You uncovered Lyon");   
-}
+If lyonPic background-image == url(Lyon.jpg) && lyonName html == "<p>Lyon</p>", then output a message saying "Match found!"
 
-/*case 2: if Lyon is uncovered and either Bern or Bern Pic is uncovered, but Lyon Pic is not uncovered, then they all need to revert to original state*/
-/*case 3: if Lyon is uncovered and Lyon Pic is uncovered, let them stay*/
-/*case 4: if Bern is uncovered and Bern Pic is uncovered, let them stay*/
-/*case 5: if Bern is uncovered and either Lyon or Lyon Pic is uncovered, but not Bern Pic, then they all need to revert to original state */
+*/
+$(document).ready(function() {
+   $('button').click(function() {
+       if (lyonPicBackground == lyonPicLocation && lyonNameHTML == "<p>Lyon</p>") {
+       
+           alert("You matched Lyon!");   
+       } 
+       else if (bernPicBackground == bernPicLocation && bernNameHTML == "<p>Bern</p>") {
+           alert("You matched Bern!");
+       }
+       else {
+           
+           alert("Oops! Try again.");
+           
+           //Reset all tiles
+           
+           $('#lyonName').removeAttr('style');
+           $('p').remove('lyonInner');
+           $('#bernName').removeAttr('style');
+           $('p').remove('bernInner');
+          
+           $('#lyonPic').removeAttr('style');
+           $('#bernPic').removeAttr('style');
+       }
+   });
+});
