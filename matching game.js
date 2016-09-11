@@ -1,6 +1,6 @@
 /*Define variables for the properties that will change when the user clicks the divs, which are also the properties we will check later to see if there's a match*/
 
-var lyonPicBackground, lyonNameHTML, bernPicBackground, bernNameHTML;
+var lyonPicBackground, lyonNamVis, bernPicBackground, bernNameVis;
 
 var lyonPicLocation = 'url("file:///Users/clarksanford/Desktop/My%20Websites/Travel%20Matching%20Game/Lyon.jpg")'
 
@@ -12,9 +12,10 @@ var bernPicLocation = 'url("file:///Users/clarksanford/Desktop/My%20Websites/Tra
     
 $(document).ready(function() {
    $('#lyonName').click(function() {
-      $(this).html("<p id='lyonInner'>Lyon</p>");
+       $('#lyonNameInner').css('visibility','visible');
        $(this).css("background-color","white");
-       lyonNameHTML = document.getElementById('lyonName').innerHTML;
+       lyonNameVis = document.getElementById('lyonNameInner').style.visibility;
+       compareResults();
    });
 });
 
@@ -22,9 +23,10 @@ $(document).ready(function() {
     
 $(document).ready(function() {
    $('#bernName').click(function() {
-      $(this).html("<p id='bernInner'>Bern</p>");
+      $('#bernNameInner').css('visibility','visible');
        $(this).css("background-color","white");
-       bernNameHTML = document.getElementById('bernName').innerHTML;
+       bernNameVis = document.getElementById('bernNameInner').style.visibility;
+       compareResults();
    });
 });
 
@@ -36,6 +38,7 @@ $(document).ready(function() {
        $(this).css("background-size","cover");
        $(this).css("background-position","center");
        lyonPicBackground = $('#lyonPic').css("background-image");
+       compareResults();
    });
 });
 
@@ -46,36 +49,122 @@ $(document).ready(function() {
        $(this).css("background-size","cover");
        $(this).css("background-position","center");
        bernPicBackground = $('#bernPic').css("background-image");
+       compareResults();
    });
 });
 
-/*When user clicks 'check results' button, results should be compared:
+/*When user clicks 'check results' button, results should be compared. Here are the options:
 
-If lyonPic background-image == url(Lyon.jpg) && lyonName html == "<p>Lyon</p>", then output a message saying "Match found!"
+    Case 1: LYON NAME + BERN PIC --> OOPS try again
+    Case 2: LYON NAME + LYON PIC --> MATCH!
+    Case 3: LYON NAME + BERN NAME --> OOPS try again
+    
+    Case 4: BERN PIC + LYON PIC --> OOPS try again
+    Case 5: BERN PIC + BERN NAME --> MATCH!
+    
+    Case 6: LYON PIC + BERN NAME --> OOPS try again
 
+    And here is the code translation of these options:
+    
+    Case 1: lyonNameVis == "visible" && bernPicBackground == bernPicLocation && bernNameVis == "hidden" && lyonPicBackground != lyonPicLocation
+    
+    Case 2: lyonNameVis == "visible" && lyonPicBackground == lyonPicLocation
+    
+    Case 3: lyonNameVis == "visible" && bernNameVis == "visible" && lyonPicBackground != lyonPicLocation && bernPicBackground != bernPicLocation
+    
+    Case 4: bernPicBackground == bernPicLocation && lyonPicBackground == lyonPicLocation && bernNameVis == "hidden" && lyonNameVis == "hidden"
+    
+    Case 5: bernPicBackground == bernPicLocation && bernNameVis == "visible"
+    
+    Case 6: lyonPicBackground == lyonPicLocation && bernNameVis == "visible" && lyonNameVis == "hidden" && bernPicBackground != bernPicLocation
 */
-$(document).ready(function() {
-   $('button').click(function() {
-       if (lyonPicBackground == lyonPicLocation && lyonNameHTML == "<p>Lyon</p>") {
+function compareResults() {
+    if (lyonNameVis == "visible" && bernPicBackground == bernPicLocation && bernNameVis == "hidden" && lyonPicBackground != lyonPicLocation) {
        
-           alert("You matched Lyon!");   
-       } 
-       else if (bernPicBackground == bernPicLocation && bernNameHTML == "<p>Bern</p>") {
-           alert("You matched Bern!");
-       }
-       else {
-           
            alert("Oops! Try again.");
            
            //Reset all tiles
            
            $('#lyonName').removeAttr('style');
-           $('p').remove('lyonInner');
+           $('#lyonNameInner').css('visibility','hidden');
            $('#bernName').removeAttr('style');
-           $('p').remove('bernInner');
+           $('#bernNameInner').css('visibility','hidden');
+          
+           $('#lyonPic').removeAttr('style');
+           $('#bernPic').removeAttr('style');  
+       } 
+       
+    if (lyonNameVis == "visible" && lyonPicBackground == lyonPicLocation) {
+           
+           alert("You found a match!");
+           
+       }
+    
+    if (lyonNameVis == "visible" && bernNameVis == "visible" && lyonPicBackground != lyonPicLocation && bernPicBackground != bernPicLocation) {
+            
+           alert("Oops! Try again.");
+        
+           //Reset all tiles
+           
+           $('#lyonName').removeAttr('style');
+           $('#lyonNameInner').css('visibility','hidden');
+           $('#bernName').removeAttr('style');
+           $('#bernNameInner').css('visibility','hidden');
+          
+           $('#lyonPic').removeAttr('style');
+           $('#bernPic').removeAttr('style');  
+        }
+    
+    if (bernPicBackground == bernPicLocation && lyonPicBackground == lyonPicLocation && bernNameVis == "hidden" && lyonNameVis == "hidden") {
+            
+           alert("Oops! Try again.");
+           
+           //Reset all tiles
+           
+           $('#lyonName').removeAttr('style');
+           $('#lyonNameInner').css('visibility','hidden');
+           $('#bernName').removeAttr('style');
+           $('#bernNameInner').css('visibility','hidden');
+          
+           $('#lyonPic').removeAttr('style');
+           $('#bernPic').removeAttr('style');  
+        }
+    
+    if (bernPicBackground == bernPicLocation && bernNameVis == "visible") {
+            
+            alert("You found a match!");
+        }
+    
+    if (lyonPicBackground == lyonPicLocation && bernNameVis == "visible" && lyonNameVis == "hidden" && bernPicBackground != bernPicLocation) {
+            
+           alert("Oops! Try again.");
+           
+           //Reset all tiles
+           
+           $('#lyonName').removeAttr('style');
+           $('#lyonNameInner').css('visibility','hidden');
+           $('#bernName').removeAttr('style');
+           $('#bernNameInner').css('visibility','hidden');
+          
+           $('#lyonPic').removeAttr('style');
+           $('#bernPic').removeAttr('style');  
+        }
+}
+
+/* MORE CONDITIONALS I MAY OR MAY NOT NEED
+
+if (bernPicBackground == bernPicLocation && lyonNameVis == "visible") {
+           alert("Oops! Try again.");
+           
+           //Reset all tiles
+           
+           $('#lyonName').removeAttr('style');
+           $('#lyonNameInner').css('visibility','hidden');
+           $('#bernName').removeAttr('style');
+           $('#bernNameInner').css('visibility','hidden');
           
            $('#lyonPic').removeAttr('style');
            $('#bernPic').removeAttr('style');
        }
-   });
-});
+       else if (lyonPicBackground == lyonPicLocation && bernNameVis == "visible")
+       */
