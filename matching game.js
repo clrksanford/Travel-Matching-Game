@@ -1,10 +1,43 @@
 /*Define variables for the properties that will change when the user clicks the divs, which are also the properties we will check later to see if there's a match*/
 
-var lyonPicBackground, lyonNamVis, bernPicBackground, bernNameVis;
+/*These variables are not working...I'm going to comment them out for now
+var lyonPicBackground = $('#lyonPic').css("background-image");
+var lyonNameVis = $('#lyonNameInner').css('visibility');
+var bernPicBackground = $('#bernPic').css("background-image");
+var bernNameVis = $('#bernNameInner').css('visibility');
+*/
 
 var lyonPicLocation = 'url("file:///Users/clarksanford/Desktop/My%20Websites/Travel%20Matching%20Game/Lyon.jpg")'
 
 var bernPicLocation = 'url("file:///Users/clarksanford/Desktop/My%20Websites/Travel%20Matching%20Game/Bern.jpg")'
+
+function reset() {
+           
+           //Reset all tiles
+           
+           $('#lyonName').removeAttr('style');
+           $('#lyonNameInner').css('visibility','hidden');
+           $('#bernName').removeAttr('style');
+           $('#bernNameInner').css('visibility','hidden');
+          
+           $('#lyonPic').removeAttr('style');
+           $('#bernPic').removeAttr('style');  
+          
+}
+
+//Define a function to delay the result of the user's choice
+
+function winOrLose(func) {
+       
+    var delayTime;
+
+    function delayReveal() {
+           
+        delayTime = setTimeout(func, 1500);
+       }
+       
+       delayReveal();
+}
 
 /*Define what happens when the user clicks on the different divs*/
 
@@ -14,9 +47,30 @@ $(document).ready(function() {
    $('#lyonName').click(function() {
        $('#lyonNameInner').css('visibility','visible');
        $(this).css("background-color","white");
-       lyonNameVis = document.getElementById('lyonNameInner').style.visibility;
-       compareResults();
-   });
+       
+    function checkResult() {
+     if ($('#bernPic').css("background-image") == bernPicLocation && 
+                $('#bernNameInner').css('visibility') == "hidden" && 
+                $('#lyonPic').css("background-image") != lyonPicLocation) {
+               
+                reset();
+           }
+           else if ($('#bernNameInner').css('visibility') == "visible" && 
+                $('#bernPic').css("background-image") != bernPicLocation && 
+                $('#lyonPic').css("background-image") != lyonPicLocation) {
+           
+                reset();
+            }
+           else if ($('#lyonPic').css("background-image") == lyonPicLocation) {
+           
+                alert("Match found!");
+            }      
+        }
+       
+       winOrLose(checkResult);
+   
+       
+    });
 });
 
 //When user clicks the box hiding Bern Name, the name should appear
@@ -25,8 +79,27 @@ $(document).ready(function() {
    $('#bernName').click(function() {
       $('#bernNameInner').css('visibility','visible');
        $(this).css("background-color","white");
-       bernNameVis = document.getElementById('bernNameInner').style.visibility;
-       compareResults();
+       
+       function checkResult() {
+     if ($('#lyonPic').css("background-image") == lyonPicLocation && 
+                $('#lyonNameInner').css('visibility') == "hidden" && 
+                $('#bernPic').css("background-image") != bernPicLocation) {
+               
+                reset();
+           }
+           else if ($('#lyonNameInner').css('visibility') == "visible" && 
+                $('#lyonPic').css("background-image") != lyonPicLocation && 
+                $('#bernPic').css("background-image") != bernPicLocation) {
+           
+                reset();
+            }
+           else if ($('#bernPic').css("background-image") == bernPicLocation) {
+           
+                alert("Match found!");
+            }      
+        }
+       
+       winOrLose(checkResult);
    });
 });
 
@@ -37,8 +110,27 @@ $(document).ready(function() {
       $(this).css("background-image","url(Lyon.jpg)");
        $(this).css("background-size","cover");
        $(this).css("background-position","center");
-       lyonPicBackground = $('#lyonPic').css("background-image");
-       compareResults();
+       
+       function checkResult() {
+            if ($('#bernPic').css("background-image") == bernPicLocation && 
+                $('#lyonNameInner').css('visibility') == "hidden" && 
+                $('#bernNameInner').css("visibility") == "hidden") {
+               
+                reset();
+           }
+           else if ($('#bernNameInner').css('visibility') == "visible" && 
+                $('#lyonNameInner').css("visibility") == "hidden" && 
+                $('#bernPic').css("background-image") != bernPicLocation) {
+           
+                reset();
+            }
+           else if ($('#lyonNameInner').css("visibility") == "visible") {
+           
+                alert("Match found!");
+            }      
+        }
+       
+       winOrLose(checkResult);
    });
 });
 
@@ -48,8 +140,27 @@ $(document).ready(function() {
       $(this).css("background-image","url(Bern.jpg)");
        $(this).css("background-size","cover");
        $(this).css("background-position","center");
-       bernPicBackground = $('#bernPic').css("background-image");
-       compareResults();
+       
+       function checkResult() {
+            if ($('#lyonPic').css("background-image") == lyonPicLocation && 
+                $('#lyonNameInner').css('visibility') == "hidden" && 
+                $('#bernNameInner').css("visibility") == "hidden") {
+               
+                reset();
+           }
+           else if ($('#lyonNameInner').css('visibility') == "visible" && 
+                $('#bernNameInner').css("visibility") == "hidden" && 
+                $('#lyonPic').css("background-image") != lyonPicLocation) {
+           
+                reset();
+            }
+           else if ($('#bernNameInner').css("visibility") == "visible") {
+           
+                alert("Match found!");
+            }      
+        }
+       
+       winOrLose(checkResult);
    });
 });
 
@@ -77,7 +188,7 @@ $(document).ready(function() {
     Case 5: bernPicBackground == bernPicLocation && bernNameVis == "visible"
     
     Case 6: lyonPicBackground == lyonPicLocation && bernNameVis == "visible" && lyonNameVis == "hidden" && bernPicBackground != bernPicLocation
-*/
+
 function compareResults() {
     if (lyonNameVis == "visible" && bernPicBackground == bernPicLocation && bernNameVis == "hidden" && lyonPicBackground != lyonPicLocation) {
        
